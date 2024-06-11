@@ -1,0 +1,11 @@
+[alias]
+	st = status -s
+	sta = status
+	ci = commit
+	co = checkout
+	cod = checkout .
+	aa = add -A
+	br = branch
+	bra = branch -a
+	edit = commit --amend
+	forgot = edit --no-edit --date=now
