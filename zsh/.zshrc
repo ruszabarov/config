@@ -24,4 +24,4 @@ eval "$(zoxide init zsh)"
 alias vim=nvim
 
 # Created by `pipx` on 2024-06-09 02:11:09
-export PATH="$PATH:/Users/ruszabarov/.local/bin"
+export PATH="$PATH:~/.local/bin"
