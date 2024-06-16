@@ -1,3 +1,8 @@
+[user]
+  name = Your name
+  email = ruszabarov@gmail.com
+[core]
+  editor = nvim
 [alias]
 	st = status -s
 	sta = status
@@ -9,3 +14,4 @@
 	bra = branch -a
 	edit = commit --amend
 	forgot = edit --no-edit --date=now
+  staash = stash --all
