@@ -10,3 +10,6 @@ padding.y = 10
 [font]
 normal.family = "JetBrainsMono Nerd Font Mono"
 size = 15
+
+[shell]
+program = "/opt/homebrew/bin/fish"
