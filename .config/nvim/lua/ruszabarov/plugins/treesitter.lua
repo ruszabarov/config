@@ -16,6 +16,8 @@ return {
 				"markdown",
 				"markdown_inline",
 				"angular",
+        "cpp",
+        "c",
 			},
 			indent = { enable = true },
 			highlight = {
