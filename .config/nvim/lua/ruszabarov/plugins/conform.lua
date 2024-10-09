@@ -13,6 +13,7 @@ return {
 				cpp = { "clang-format" },
 				c = { "clang-format" },
 				python = { "black", "mypy", "ruff" },
+				go = { "goimports" },
 			},
 			format_on_save = {
 				enabled = true,

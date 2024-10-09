@@ -20,6 +20,7 @@ return {
 				"cssls",
 				"clangd",
 				"pyright",
+				"gopls",
 			},
 			automatic_installation = true,
 		})
@@ -34,6 +35,7 @@ return {
 				"mypy",
 				"ruff",
 				"black",
+				"goimports",
 			},
 		})
 	end,
