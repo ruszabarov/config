@@ -19,6 +19,7 @@ return {
 				"html",
 				"cssls",
 				"clangd",
+				"pyright",
 			},
 			automatic_installation = true,
 		})
@@ -30,6 +31,9 @@ return {
 				"eslint_d",
 				"prettierd",
 				"clang-format",
+				"mypy",
+				"ruff",
+				"black",
 			},
 		})
 	end,

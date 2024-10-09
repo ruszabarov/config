@@ -3,8 +3,8 @@ return {
 	event = { "VeryLazy" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
-    "nvim-telescope/telescope.nvim",
-    "nvim-lua/plenary.nvim"
+		"nvim-telescope/telescope.nvim",
+		"nvim-lua/plenary.nvim",
 	},
 	enabled = true,
 	config = function()
@@ -67,7 +67,12 @@ return {
 				vim.diagnostic.open_float,
 				{ buffer = bufnr, desc = "Show diagnostics for line" }
 			)
-			vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", { buffer = bufnr, desc = 'Show definition, references'})
+			vim.keymap.set(
+				"n",
+				"gR",
+				"<cmd>Telescope lsp_references<CR>",
+				{ buffer = bufnr, desc = "Show definition, references" }
+			)
 			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
 		end
 
@@ -82,8 +87,8 @@ return {
 		lspconfig["tsserver"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-      root_dir = util.root_pattern("tsconfig.json", "package.json"),
-    })
+			root_dir = util.root_pattern("tsconfig.json", "package.json"),
+		})
 
 		-- configure html server
 		lspconfig["html"].setup({
@@ -132,10 +137,17 @@ return {
 			on_attach = on_attach,
 		})
 
-    -- configure c server
-    lspconfig["clangd"].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-    })
+		-- configure c server
+		lspconfig["clangd"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- configure python server
+		lspconfig["pyright"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "python" },
+		})
 	end,
 }

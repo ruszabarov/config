@@ -12,10 +12,10 @@ return {
 				lua = { "stylua" },
 				cpp = { "clang-format" },
 				c = { "clang-format" },
+				python = { "black", "mypy", "ruff" },
 			},
 			format_on_save = {
-				-- These options will be passed to conform.format()
-				timeout_ms = 500,
+				enabled = true,
 				lsp_format = "fallback",
 			},
 		})
