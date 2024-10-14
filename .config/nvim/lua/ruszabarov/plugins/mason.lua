@@ -21,7 +21,6 @@ return {
 				"clangd",
 				"pyright",
 				"gopls",
-				"hls",
 			},
 			automatic_installation = true,
 		})
@@ -37,7 +36,6 @@ return {
 				"ruff",
 				"black",
 				"goimports",
-				"fourmolu",
 			},
 		})
 	end,

@@ -155,11 +155,5 @@ return {
 			on_attach = on_attach,
 			filetypes = { "go" },
 		})
-
-		-- lspconfig["hls"].setup({
-		-- 	filetypes = { "haskell", "cabal", "lhaskell" },
-		-- 	on_attach = on_attach,
-		-- 	capabilities = capabilities,
-		-- })
 	end,
 }
