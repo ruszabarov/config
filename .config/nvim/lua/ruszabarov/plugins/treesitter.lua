@@ -3,6 +3,7 @@ return {
 	event = { "BufReadPost", "BufNewFile" },
 	build = ":TSUpdate",
 	enabled = true,
+	dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 	config = function()
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
@@ -19,6 +20,7 @@ return {
 				"cpp",
 				"c",
 				"go",
+				"haskell",
 			},
 			indent = { enable = true },
 			highlight = {

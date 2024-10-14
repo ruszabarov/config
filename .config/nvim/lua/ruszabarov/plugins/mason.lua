@@ -13,7 +13,7 @@ return {
 
 		mason_lspconfig.setup({
 			ensure_installed = {
-				"tsserver",
+				"ts_ls",
 				"angularls",
 				"lua_ls",
 				"html",
@@ -21,6 +21,7 @@ return {
 				"clangd",
 				"pyright",
 				"gopls",
+				"hls",
 			},
 			automatic_installation = true,
 		})
@@ -36,6 +37,7 @@ return {
 				"ruff",
 				"black",
 				"goimports",
+				"fourmolu",
 			},
 		})
 	end,

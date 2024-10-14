@@ -84,7 +84,7 @@ return {
 		end
 
 		-- configure typescript server with plugin
-		lspconfig["tsserver"].setup({
+		lspconfig["ts_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			root_dir = util.root_pattern("tsconfig.json", "package.json"),
@@ -149,5 +149,17 @@ return {
 			on_attach = on_attach,
 			filetypes = { "python" },
 		})
+
+		lspconfig["gopls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "go" },
+		})
+
+		-- lspconfig["hls"].setup({
+		-- 	filetypes = { "haskell", "cabal", "lhaskell" },
+		-- 	on_attach = on_attach,
+		-- 	capabilities = capabilities,
+		-- })
 	end,
 }
