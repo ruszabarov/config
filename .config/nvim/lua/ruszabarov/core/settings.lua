@@ -73,7 +73,7 @@ vim.opt.showbreak = "↳"
 -- " https://github.com/vim/vim/blob/master/runtime/doc/russian.txt
 -- " Enable hotkeys for Russian layout
 vim.opt.langmap =
-  "ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
+	"ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯ;ABCDEFGHIJKLMNOPQRSTUVWXYZ,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz"
 
 -- " Start scrolling when we'are 8 lines aways from borders
 vim.opt.scrolloff = 8
@@ -90,3 +90,8 @@ vim.opt.gdefault = true
 -- Lazy redraw
 vim.o.lazyredraw = true
 
+-- Disable virtual text and enable underlining for diagnostics
+vim.diagnostic.virtual_text = false
+vim.diagnostic.underline = true
+vim.diagnostic.signs = true
+vim.diagnostic.update_in_insert = false
