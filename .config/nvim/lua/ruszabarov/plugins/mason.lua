@@ -20,6 +20,7 @@ return {
 				"cssls",
 				"clangd",
 				"pyright",
+				"hls",
 				"gopls",
 			},
 			automatic_installation = true,
@@ -36,6 +37,8 @@ return {
 				"ruff",
 				"black",
 				"goimports",
+				"ormolu",
+				"hlint",
 			},
 		})
 	end,

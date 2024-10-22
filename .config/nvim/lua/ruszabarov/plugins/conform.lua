@@ -14,6 +14,7 @@ return {
 				c = { "clang-format" },
 				python = { "black", "mypy", "ruff" },
 				go = { "goimports" },
+				haskell = { "ormolu" },
 			},
 			format_on_save = {
 				enabled = true,

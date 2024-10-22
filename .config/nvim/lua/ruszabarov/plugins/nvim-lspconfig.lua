@@ -61,19 +61,16 @@ return {
 				vim.lsp.buf.code_action,
 				{ buffer = bufnr, desc = "See available code actions" }
 			)
-			vim.keymap.set(
-				"n",
-				"<leader>d",
-				vim.diagnostic.open_float,
-				{ buffer = bufnr, desc = "Show diagnostics for line" }
-			)
-			vim.keymap.set(
-				"n",
-				"gR",
-				"<cmd>Telescope lsp_references<CR>",
-				{ buffer = bufnr, desc = "Show definition, references" }
-			)
-			vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
+			vim.keymap.set("n", "<leader>d", function()
+				vim.diagnostic.open_float(nil, { severity_sort = true })
+			end, { buffer = bufnr, desc = "Show diagnostics for line" })
+			-- vim.keymap.set(
+			-- 	"n",
+			-- 	"gR",
+			-- 	"<cmd>Telescope lsp_references<CR>",
+			-- 	{ buffer = bufnr, desc = "Show definition, references" }
+			-- )
+			-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
 		end
 
 		local capabilities = cmp_nvim_lsp.default_capabilities()
@@ -154,6 +151,13 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "go" },
+		})
+
+		lspconfig["hls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			filetypes = { "haskell", "lhaskell" }, -- Add Haskell filetypes
+			root_dir = util.root_pattern("*.cabal", "stack.yaml", "hie.yaml", ".git"),
 		})
 	end,
 }
