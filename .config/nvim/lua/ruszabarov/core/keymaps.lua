@@ -40,10 +40,8 @@ vim.cmd("vnoremap <silent> y y`]")
 vim.cmd("vnoremap <silent> p p`]")
 vim.cmd("nnoremap <silent> p p`]")
 
--- Space + Space to clean search highlight
+-- Space + h to clean search highlight
 vim.keymap.set("n", "<Leader>h", ":noh<CR>", { silent = true })
 
 -- Fixes pasting after visual selection.
 vim.keymap.set("v", "p", '"_dP')
-
-

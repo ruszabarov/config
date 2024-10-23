@@ -1,56 +1,94 @@
 return {
-  "nvim-lualine/lualine.nvim",
-  config = function()
-    local colors = {
-      default_background = "#504945",
-      default_text = "#EBDBB2",
-      modified_background = "#AA4542",
-      saved_background = "#84A598",
-    }
-    local theme = {
-      normal = {
-        a = { bg = colors.saved_background, fg = colors.default_text },
-        b = { bg = colors.default_background, fg = colors.default_text },
-        c = { fg = colors.default_text, bg = colors.default_background },
-        z = { fg = colors.default_text, bg = colors.default_background },
-      },
-    }
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			local icon = require("ruszabarov.core.icons")
+			local lualine = require("lualine")
+			local mode = "mode"
+			local filetype = { "filetype", icon_only = true }
 
-    local function modified_text()
-      if vim.bo.modified then
-        return "✘"
-      end
-      return " "
-    end
+			local diagnostics = {
+				"diagnostics",
+				sources = { "nvim_diagnostic" },
+				sections = { "error", "warn", "info", "hint" },
+				symbols = {
+					error = icon.diagnostics.Error,
+					hint = icon.diagnostics.Hint,
+					info = icon.diagnostics.Info,
+					warn = icon.diagnostics.Warning,
+				},
+				colored = true,
+				update_in_insert = false,
+				always_visible = false,
+			}
 
-    require("lualine").setup({
-      options = {
-        theme = theme,
-      },
-      sections = {
-        lualine_a = {
-          {
-            modified_text,
-            separator = { right = "" },
-            padding = {
-              left = 3,
-              right = 3,
-            },
-            color = function()
-              if vim.bo.modified then
-                return { bg = colors.modified_background, fg = colors.default_text }
-              end
-            end,
-          },
-        },
-        lualine_b = {
-          { "filename", file_status = false, path = 4 },
-        },
-        lualine_c = {},
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-      },
-    })
-  end,
+			local diff = {
+				"diff",
+				source = function()
+					local gitsigns = vim.b.gitsigns_status_dict
+					if gitsigns then
+						return {
+							added = gitsigns.added,
+							modified = gitsigns.changed,
+							removed = gitsigns.removed,
+						}
+					end
+				end,
+				symbols = {
+					added = icon.git.LineAdded .. " ",
+					modified = icon.git.LineModified .. " ",
+					removed = icon.git.LineRemoved .. " ",
+				},
+				colored = true,
+				always_visible = false,
+			}
+
+			-- Custom theme with background color set to #282828
+			local custom_theme = {
+				normal = {
+					a = { bg = "#282828", fg = "#ebdbb2" },
+					b = { bg = "#282828", fg = "#ebdbb2" },
+					c = { bg = "#282828", fg = "#ebdbb2" },
+				},
+				insert = {
+					a = { bg = "#282828", fg = "#ebdbb2" },
+					b = { bg = "#282828", fg = "#ebdbb2" },
+					c = { bg = "#282828", fg = "#ebdbb2" },
+				},
+				visual = {
+					a = { bg = "#282828", fg = "#ebdbb2" },
+					b = { bg = "#282828", fg = "#ebdbb2" },
+					c = { bg = "#282828", fg = "#ebdbb2" },
+				},
+				replace = {
+					a = { bg = "#282828", fg = "#ebdbb2" },
+					b = { bg = "#282828", fg = "#ebdbb2" },
+					c = { bg = "#282828", fg = "#ebdbb2" },
+				},
+				inactive = {
+					a = { bg = "#282828", fg = "#a89984" },
+					b = { bg = "#282828", fg = "#a89984" },
+					c = { bg = "#282828", fg = "#a89984" },
+				},
+			}
+
+			lualine.setup({
+				options = {
+					theme = custom_theme, -- Use the custom theme
+					globalstatus = true,
+					section_separators = "",
+					component_separators = "",
+					disabled_filetypes = { statusline = { "dashboard", "lazy", "alpha" } },
+				},
+				sections = {
+					lualine_a = { mode },
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { diff, diagnostics, filetype },
+					lualine_y = {},
+					lualine_z = {},
+				},
+			})
+		end,
+	},
 }
