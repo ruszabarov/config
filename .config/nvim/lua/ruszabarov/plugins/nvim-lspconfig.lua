@@ -81,7 +81,7 @@ return {
 		end
 
 		-- configure typescript server with plugin
-		lspconfig["ts_ls"].setup({
+		lspconfig["tsserver"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			root_dir = util.root_pattern("tsconfig.json", "package.json"),
@@ -98,12 +98,12 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			root_dir = util.root_pattern("angular.json", "project.json", "nx.json"),
-			cmd = {
-				"/Users/zabarovr/.nvm/versions/node/v18.19.1/lib/node_modules/@angular/language-server/bin/ngserver",
-				"--ngProbeLocations",
-				"/Users/zabarovr/.nvm/versions/node/v18.19.1/lib/node_modules/@angular/language-server/node_modules/",
-				"--stdio",
-			},
+			-- cmd = {
+			-- 	"/Users/zabarovr/.nvm/versions/node/v18.19.1/lib/node_modules/@angular/language-server/bin/ngserver",
+			-- 	"--ngProbeLocations",
+			-- 	"/Users/zabarovr/.nvm/versions/node/v18.19.1/lib/node_modules/@angular/language-server/node_modules/",
+			-- 	"--stdio",
+			-- },
 			filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx", "htmlangular" },
 		})
 
@@ -132,32 +132,6 @@ return {
 		lspconfig["cssls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-		})
-
-		-- configure c server
-		lspconfig["clangd"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-		})
-
-		-- configure python server
-		lspconfig["pyright"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "python" },
-		})
-
-		lspconfig["gopls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "go" },
-		})
-
-		lspconfig["hls"].setup({
-			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "haskell", "lhaskell" }, -- Add Haskell filetypes
-			root_dir = util.root_pattern("*.cabal", "stack.yaml", "hie.yaml", ".git"),
 		})
 	end,
 }

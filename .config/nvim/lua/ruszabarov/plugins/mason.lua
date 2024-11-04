@@ -13,15 +13,11 @@ return {
 
 		mason_lspconfig.setup({
 			ensure_installed = {
-				"ts_ls",
+				"tsserver",
 				"angularls",
 				"lua_ls",
 				"html",
 				"cssls",
-				"clangd",
-				"pyright",
-				"hls",
-				"gopls",
 			},
 			automatic_installation = true,
 		})
@@ -32,13 +28,6 @@ return {
 				"stylua",
 				"eslint_d",
 				"prettierd",
-				"clang-format",
-				"mypy",
-				"ruff",
-				"black",
-				"goimports",
-				"ormolu",
-				"hlint",
 			},
 		})
 	end,
