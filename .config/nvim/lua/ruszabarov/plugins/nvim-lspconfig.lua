@@ -98,12 +98,6 @@ return {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			root_dir = util.root_pattern("angular.json", "project.json", "nx.json"),
-			cmd = {
-				"/Users/zabarovr/.nvm/versions/node/v18.19.1/lib/node_modules/@angular/language-server/bin/ngserver",
-				"--ngProbeLocations",
-				"/Users/zabarovr/.nvm/versions/node/v18.19.1/lib/node_modules/@angular/language-server/node_modules/",
-				"--stdio",
-			},
 			filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx", "htmlangular" },
 		})
 
@@ -158,6 +152,27 @@ return {
 			on_attach = on_attach,
 			filetypes = { "haskell", "lhaskell" }, -- Add Haskell filetypes
 			root_dir = util.root_pattern("*.cabal", "stack.yaml", "hie.yaml", ".git"),
+		})
+
+		lspconfig["eslint"].setup({
+			capabilities = capabilities,
+			on_attach = function(client, bufnr)
+				client.server_capabilities.document_formatting = true
+				client.server_capabilities.document_range_formatting = true
+				on_attach(client, bufnr) -- inherit default on_attach settings
+			end,
+			root_dir = util.root_pattern(".eslintrc.js", ".eslintrc.json", "package.json"),
+			settings = {
+				codeAction = {
+					disableRuleComment = {
+						enable = true,
+						location = "separateLine",
+					},
+					showDocumentation = {
+						enable = true,
+					},
+				},
+			},
 		})
 	end,
 }

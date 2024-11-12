@@ -30,7 +30,7 @@ return {
 			ensure_installed = {
 				"prettier",
 				"stylua",
-				"eslint_d",
+				"eslint",
 				"prettierd",
 				"clang-format",
 				"mypy",

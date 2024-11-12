@@ -14,6 +14,9 @@ return {
 	config = function()
 		local telescope = require("telescope")
 		telescope.setup({
+			defaults = {
+				path_display = { "truncate" }, -- Truncate the path from the beginning
+			},
 			extensions = {
 				fzf = {
 					fuzzy = true, -- false will only do exact matching

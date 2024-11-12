@@ -12,10 +12,10 @@ vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Move to first symbol on the line
-vim.keymap.set("n", "H", "^")
+vim.keymap.set({ "n", "v" }, "H", "^")
 
 -- Move to last symbol of the line
-vim.keymap.set("n", "L", "$")
+vim.keymap.set({ "n", "v" }, "L", "$")
 
 -- Shift + q - Quit
 vim.keymap.set("n", "Q", "<C-W>q")
