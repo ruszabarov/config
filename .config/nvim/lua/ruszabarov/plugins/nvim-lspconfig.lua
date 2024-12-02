@@ -64,6 +64,12 @@ return {
 			vim.keymap.set("n", "<leader>d", function()
 				vim.diagnostic.open_float(nil, { severity_sort = true })
 			end, { buffer = bufnr, desc = "Show diagnostics for line" })
+
+			-- Keymap for quick fix action when "fix available"
+			vim.keymap.set("n", "<leader>qf", function()
+				local opts = { context = { only = { "quickfix" } } }
+				vim.lsp.buf.code_action(opts)
+			end, { buffer = bufnr, desc = "Quick fix for diagnostics" })
 			-- vim.keymap.set(
 			-- 	"n",
 			-- 	"gR",
