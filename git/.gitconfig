@@ -1,6 +1,7 @@
 [user]
   name = Your name
   email = ruszabarov@gmail.com
+	signingkey = 87CDA54317D63B45
 [core]
   editor = nvim
 [alias]
@@ -15,3 +16,9 @@
 	edit = commit --amend
 	forgot = edit --no-edit --date=now
   staash = stash --all
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
