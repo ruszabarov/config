@@ -1,7 +1,7 @@
 [user]
-  name = Your name
+	name = Ruslan Zabarov
   email = ruszabarov@gmail.com
-	signingkey = 87CDA54317D63B45
+	signingkey = 3712090DD1B80B336B28B97BC4C0468C1FEC37CE
 [core]
   editor = nvim
 [alias]
@@ -17,8 +17,10 @@
 	forgot = edit --no-edit --date=now
   staash = stash --all
 [gpg]
-	program = gpg
+	program = /opt/homebrew/bin/gpg
 [commit]
 	gpgsign = true
 [tag]
 	gpgSign = true
+[pull]
+	rebase = true
