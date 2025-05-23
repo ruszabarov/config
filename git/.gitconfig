@@ -3,7 +3,12 @@
   email = ruszabarov@gmail.com
 	signingkey = 3712090DD1B80B336B28B97BC4C0468C1FEC37CE
 [core]
-  editor = nvim
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  dark = true
 [alias]
 	st = status -s
 	sta = status
@@ -23,4 +28,6 @@
 [tag]
 	gpgSign = true
 [pull]
-	rebase = true
+  rebase = true
+[merge]
+  conflictstyle = zdiff3

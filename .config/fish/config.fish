@@ -18,10 +18,6 @@ set -q GHCUP_INSTALL_BASE_PREFIX[1]; or set GHCUP_INSTALL_BASE_PREFIX $HOME ; se
 
 set -x GPG_TTY (tty)
 
-set -x JAVA_HOME (/usr/libexec/java_home)
-set -x ANT_HOME (brew --prefix ant)/libexec
-set -x PATH $JAVA_HOME/bin $ANT_HOME/bin $PATH
-
 # pnpm
 set -gx PNPM_HOME "/Users/ruszabarov/Library/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
