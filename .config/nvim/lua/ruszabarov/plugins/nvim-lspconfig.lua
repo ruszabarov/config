@@ -8,8 +8,6 @@ return {
 	},
 	enabled = true,
 	config = function()
-		local lspconfig = require("lspconfig")
-		local util = require("lspconfig.util")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		-- Disable inline error messages
@@ -87,28 +85,28 @@ return {
 		end
 
 		-- configure typescript server with plugin
-		lspconfig["ts_ls"].setup({
+		vim.lsp.enable("ts_ls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
-			root_dir = util.root_pattern("tsconfig.json", "package.json"),
+			root_dir = vim.fs.root(0, { "tsconfig.json", "package.json" }),
 		})
 
 		-- configure html server
-		lspconfig["html"].setup({
+		vim.lsp.enable("html", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure angular server
-		lspconfig["angularls"].setup({
+		vim.lsp.enable("angularls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
-			root_dir = util.root_pattern("angular.json", "project.json", "nx.json"),
+			root_dir = vim.fs.root(0, { "angular.json", "project.json", "nx.json" }),
 			filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx", "htmlangular" },
 		})
 
 		-- configure lua server (with special settings)
-		lspconfig["lua_ls"].setup({
+		vim.lsp.enable("lua_ls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
@@ -129,45 +127,45 @@ return {
 		})
 
 		-- configure css server
-		lspconfig["cssls"].setup({
+		vim.lsp.enable("cssls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure c server
-		lspconfig["clangd"].setup({
+		vim.lsp.enable("clangd", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure python server
-		lspconfig["pyright"].setup({
+		vim.lsp.enable("pyright", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "python" },
 		})
 
-		lspconfig["gopls"].setup({
+		vim.lsp.enable("gopls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "go" },
 		})
 
-		lspconfig["hls"].setup({
+		vim.lsp.enable("hls", {
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "haskell", "lhaskell" }, -- Add Haskell filetypes
-			root_dir = util.root_pattern("*.cabal", "stack.yaml", "hie.yaml", ".git"),
+			root_dir = vim.fs.root(0, { "*.cabal", "stack.yaml", "hie.yaml", ".git" }),
 		})
 
-		lspconfig["eslint"].setup({
+		vim.lsp.enable("eslint", {
 			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				client.server_capabilities.document_formatting = true
 				client.server_capabilities.document_range_formatting = true
 				on_attach(client, bufnr) -- inherit default on_attach settings
 			end,
-			root_dir = util.root_pattern(".eslintrc.js", ".eslintrc.json", "package.json"),
+			root_dir = vim.fs.root(0, { ".eslintrc.js", ".eslintrc.json", "package.json" }),
 			settings = {
 				codeAction = {
 					disableRuleComment = {
