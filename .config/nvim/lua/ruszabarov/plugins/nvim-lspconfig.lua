@@ -1,6 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
-	event = { "VeryLazy" },
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		"nvim-telescope/telescope.nvim",
@@ -8,6 +8,8 @@ return {
 	},
 	enabled = true,
 	config = function()
+		local lspconfig = require("lspconfig")
+		local util = require("lspconfig.util")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		-- Disable inline error messages
@@ -20,9 +22,9 @@ return {
 
 		-- Add border to floating window
 		vim.lsp.handlers["textDocument/signatureHelp"] =
-			vim.lsp.with(vim.lsp.handlers.hover, { border = "single", silent = true })
+			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single", silent = true })
 		vim.lsp.handlers["textDocument/hover"] =
-			vim.lsp.with(vim.lsp.handlers.hover, { border = "single", silend = true })
+			vim.lsp.with(vim.lsp.handlers.hover, { border = "single", silent = true })
 
 		-- Make float window transparent start
 
@@ -85,28 +87,28 @@ return {
 		end
 
 		-- configure typescript server with plugin
-		vim.lsp.enable("ts_ls", {
+		lspconfig["ts_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			root_dir = vim.fs.root(0, { "tsconfig.json", "package.json" }),
+			root_dir = util.root_pattern("tsconfig.json", "package.json"),
 		})
 
 		-- configure html server
-		vim.lsp.enable("html", {
+		lspconfig["html"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure angular server
-		vim.lsp.enable("angularls", {
+		lspconfig["angularls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
-			root_dir = vim.fs.root(0, { "angular.json", "project.json", "nx.json" }),
+			root_dir = util.root_pattern("angular.json", "project.json", "nx.json"),
 			filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx", "htmlangular" },
 		})
 
 		-- configure lua server (with special settings)
-		vim.lsp.enable("lua_ls", {
+		lspconfig["lua_ls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			settings = { -- custom settings for lua
@@ -127,45 +129,45 @@ return {
 		})
 
 		-- configure css server
-		vim.lsp.enable("cssls", {
+		lspconfig["cssls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure c server
-		vim.lsp.enable("clangd", {
+		lspconfig["clangd"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})
 
 		-- configure python server
-		vim.lsp.enable("pyright", {
+		lspconfig["pyright"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "python" },
 		})
 
-		vim.lsp.enable("gopls", {
+		lspconfig["gopls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "go" },
 		})
 
-		vim.lsp.enable("hls", {
+		lspconfig["hls"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 			filetypes = { "haskell", "lhaskell" }, -- Add Haskell filetypes
-			root_dir = vim.fs.root(0, { "*.cabal", "stack.yaml", "hie.yaml", ".git" }),
+			root_dir = util.root_pattern("*.cabal", "stack.yaml", "hie.yaml", ".git"),
 		})
 
-		vim.lsp.enable("eslint", {
+		lspconfig["eslint"].setup({
 			capabilities = capabilities,
 			on_attach = function(client, bufnr)
 				client.server_capabilities.document_formatting = true
 				client.server_capabilities.document_range_formatting = true
 				on_attach(client, bufnr) -- inherit default on_attach settings
 			end,
-			root_dir = vim.fs.root(0, { ".eslintrc.js", ".eslintrc.json", "package.json" }),
+			root_dir = util.root_pattern(".eslintrc.js", ".eslintrc.json", "package.json"),
 			settings = {
 				codeAction = {
 					disableRuleComment = {
