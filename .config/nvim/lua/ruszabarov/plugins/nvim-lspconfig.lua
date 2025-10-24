@@ -1,6 +1,6 @@
 return {
 	"neovim/nvim-lspconfig",
-	event = { "BufReadPre", "BufNewFile" },
+	event = { "VeryLazy" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		"nvim-telescope/telescope.nvim",
@@ -8,109 +8,103 @@ return {
 	},
 	enabled = true,
 	config = function()
-		local lspconfig = require("lspconfig")
-		local util = require("lspconfig.util")
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-		-- Disable inline error messages
+		-- Set up LSP keymaps, completion, and format-on-save via LspAttach
+		vim.api.nvim_create_autocmd("LspAttach", {
+			group = vim.api.nvim_create_augroup("my.lsp", {}),
+			callback = function(args)
+				local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+				local bufnr = args.buf
+
+				if client:supports_method("textDocument/hover") then
+					vim.keymap.set(
+						"n",
+						"K",
+						vim.lsp.buf.hover,
+						{ buffer = bufnr, desc = "Show documentation for what is under cursor" }
+					)
+				end
+
+				if client:supports_method("textDocument/rename") then
+					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Smart rename" })
+				end
+
+				if client:supports_method("textDocument/codeAction") then
+					vim.keymap.set(
+						{ "n", "v" },
+						"gf",
+						vim.lsp.buf.code_action,
+						{ buffer = bufnr, desc = "See available code actions" }
+					)
+					vim.keymap.set("n", "<leader>qf", function()
+						local opts = { context = { only = { "quickfix" } } }
+						vim.lsp.buf.code_action(opts)
+					end, { buffer = bufnr, desc = "Quick fix for diagnostics" })
+				end
+
+				vim.keymap.set("n", "<leader>d", function()
+					vim.diagnostic.open_float(nil, { severity_sort = true })
+				end, { buffer = bufnr, desc = "Show diagnostics for line" })
+
+				-- Enable auto-completion
+				if client:supports_method("textDocument/completion") then
+					vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+				end
+
+				-- Auto-format on save when supported and willSaveWaitUntil is not available
+				if
+					not client:supports_method("textDocument/willSaveWaitUntil")
+					and client:supports_method("textDocument/formatting")
+				then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
+						buffer = bufnr,
+						callback = function()
+							vim.lsp.buf.format({ bufnr = bufnr, id = client.id, timeout_ms = 1000 })
+						end,
+					})
+				end
+			end,
+		})
+
+		local capabilities = cmp_nvim_lsp.default_capabilities()
+		local severity = vim.diagnostic.severity
 		vim.diagnostic.config({
-			virtual_text = false,
-			float = {
-				border = "single",
+			signs = {
+				text = {
+					[severity.ERROR] = "✖",
+					[severity.WARN] = "",
+					[severity.HINT] = "󰠠",
+					[severity.INFO] = "",
+				},
 			},
 		})
 
-		-- Add border to floating window
-		vim.lsp.handlers["textDocument/signatureHelp"] =
-			vim.lsp.with(vim.lsp.handlers.signature_help, { border = "single", silent = true })
-		vim.lsp.handlers["textDocument/hover"] =
-			vim.lsp.with(vim.lsp.handlers.hover, { border = "single", silent = true })
-
-		-- Make float window transparent start
-
-		local set_hl_for_floating_window = function()
-			vim.api.nvim_set_hl(0, "NormalFloat", {
-				link = "Normal",
-			})
-			vim.api.nvim_set_hl(0, "FloatBorder", {
-				bg = "none",
-			})
-		end
-
-		set_hl_for_floating_window()
-
-		vim.api.nvim_create_autocmd("ColorScheme", {
-			pattern = "*",
-			desc = "Avoid overwritten by loading color schemes later",
-			callback = set_hl_for_floating_window,
-		})
-
-		-- Make float window transparent end
-
-		local on_attach = function(client, bufnr)
-			vim.keymap.set(
-				"n",
-				"K",
-				vim.lsp.buf.hover,
-				{ buffer = bufnr, desc = "Show documentation for what is under cursor" }
-			)
-			vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Smart rename" })
-			vim.keymap.set(
-				{ "n", "v" },
-				"gf",
-				vim.lsp.buf.code_action,
-				{ buffer = bufnr, desc = "See available code actions" }
-			)
-			vim.keymap.set("n", "<leader>d", function()
-				vim.diagnostic.open_float(nil, { severity_sort = true })
-			end, { buffer = bufnr, desc = "Show diagnostics for line" })
-
-			-- Keymap for quick fix action when "fix available"
-			vim.keymap.set("n", "<leader>qf", function()
-				local opts = { context = { only = { "quickfix" } } }
-				vim.lsp.buf.code_action(opts)
-			end, { buffer = bufnr, desc = "Quick fix for diagnostics" })
-			-- vim.keymap.set(
-			-- 	"n",
-			-- 	"gR",
-			-- 	"<cmd>Telescope lsp_references<CR>",
-			-- 	{ buffer = bufnr, desc = "Show definition, references" }
-			-- )
-			-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definition" })
-		end
-
-		local capabilities = cmp_nvim_lsp.default_capabilities()
-		local signs = { Error = "✖", Warn = "", Hint = "󰠠", Info = "" }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
-
 		-- configure typescript server with plugin
-		lspconfig["ts_ls"].setup({
+		vim.lsp.config["ts_ls"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
-			root_dir = util.root_pattern("tsconfig.json", "package.json"),
-		})
+			root_markers = { "tsconfig.json", "package.json" },
+		}
+		vim.lsp.enable("ts_ls")
 
 		-- configure html server
-		lspconfig["html"].setup({
+		vim.lsp.config["html"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		}
+		vim.lsp.enable("html")
 
 		-- configure angular server
-		lspconfig["angularls"].setup({
+		vim.lsp.config["angularls"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
-			root_dir = util.root_pattern("angular.json", "project.json", "nx.json"),
+			root_markers = { "angular.json", "project.json", "nx.json" },
 			filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx", "htmlangular" },
-		})
+		}
+		vim.lsp.enable("angularls")
 
 		-- configure lua server (with special settings)
-		lspconfig["lua_ls"].setup({
+		vim.lsp.config["lua_ls"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
 			settings = { -- custom settings for lua
 				Lua = {
 					-- make the language server recognize "vim" global
@@ -126,48 +120,37 @@ return {
 					},
 				},
 			},
-		})
+		}
+		vim.lsp.enable("lua_ls")
 
 		-- configure css server
-		lspconfig["cssls"].setup({
+		vim.lsp.config["cssls"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		}
+		vim.lsp.enable("cssls")
 
 		-- configure c server
-		lspconfig["clangd"].setup({
+		vim.lsp.config["clangd"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
-		})
+		}
+		vim.lsp.enable("clangd")
 
 		-- configure python server
-		lspconfig["pyright"].setup({
+		vim.lsp.config["pyright"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
 			filetypes = { "python" },
-		})
+		}
+		vim.lsp.enable("pyright")
 
-		lspconfig["gopls"].setup({
+		vim.lsp.config["gopls"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
 			filetypes = { "go" },
-		})
+		}
+		vim.lsp.enable("gopls")
 
-		lspconfig["hls"].setup({
+		vim.lsp.config["eslint"] = {
 			capabilities = capabilities,
-			on_attach = on_attach,
-			filetypes = { "haskell", "lhaskell" }, -- Add Haskell filetypes
-			root_dir = util.root_pattern("*.cabal", "stack.yaml", "hie.yaml", ".git"),
-		})
-
-		lspconfig["eslint"].setup({
-			capabilities = capabilities,
-			on_attach = function(client, bufnr)
-				client.server_capabilities.document_formatting = true
-				client.server_capabilities.document_range_formatting = true
-				on_attach(client, bufnr) -- inherit default on_attach settings
-			end,
-			root_dir = util.root_pattern(".eslintrc.js", ".eslintrc.json", "package.json"),
+			root_markers = { ".eslintrc.js", ".eslintrc.json", "package.json" },
 			settings = {
 				codeAction = {
 					disableRuleComment = {
@@ -179,6 +162,7 @@ return {
 					},
 				},
 			},
-		})
+		}
+		vim.lsp.enable("eslint")
 	end,
 }

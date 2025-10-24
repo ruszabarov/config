@@ -12,7 +12,7 @@ return {
 				lua = { "stylua" },
 				cpp = { "clang-format" },
 				c = { "clang-format" },
-				python = { "black", "mypy", "ruff" },
+				python = { "ruff" },
 				go = { "goimports" },
 				haskell = { "ormolu" },
 			},
