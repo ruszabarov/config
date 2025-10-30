@@ -1,12 +1,11 @@
 return {
 	"neovim/nvim-lspconfig",
-	event = { "VeryLazy" },
+	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
 		"hrsh7th/cmp-nvim-lsp",
 		"nvim-telescope/telescope.nvim",
 		"nvim-lua/plenary.nvim",
 	},
-	enabled = true,
 	config = function()
 		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 

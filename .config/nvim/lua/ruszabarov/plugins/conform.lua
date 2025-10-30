@@ -1,5 +1,6 @@
 return {
 	"stevearc/conform.nvim",
+	event = { "BufReadPre", "BufNewFile" },
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
@@ -14,7 +15,6 @@ return {
 				c = { "clang-format" },
 				python = { "ruff" },
 				go = { "goimports" },
-				haskell = { "ormolu" },
 			},
 			format_on_save = {
 				enabled = true,

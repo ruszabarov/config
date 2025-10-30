@@ -1,7 +1,3 @@
--- Set <space> as the leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Set highlight on search
 vim.o.hlsearch = true
 
@@ -92,9 +88,11 @@ vim.opt.gdefault = true
 vim.o.lazyredraw = false
 
 -- Disable virtual text and enable underlining for diagnostics
-vim.diagnostic.virtual_text = false
-vim.diagnostic.underline = true
-vim.diagnostic.signs = true
-vim.diagnostic.update_in_insert = false
+vim.diagnostic.config({
+	virtual_text = false,
+	underline = true,
+	signs = true,
+	update_in_insert = false,
+})
 
 vim.o.cmdheight = 0

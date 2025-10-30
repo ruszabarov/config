@@ -1,7 +1,6 @@
 return {
 	"nvim-tree/nvim-tree.lua",
 	dependencies = { "antosha417/nvim-lsp-file-operations", "nvim-tree/nvim-web-devicons", "nvim-lua/plenary.nvim" },
-	enabled = true,
 	config = function()
 		require("lsp-file-operations").setup()
 		-- recommended settings from nvim-tree documentation

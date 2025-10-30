@@ -2,7 +2,6 @@ return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPost", "BufNewFile" },
 	build = ":TSUpdate",
-	enabled = true,
 	dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
 	config = function()
 		require("nvim-treesitter.configs").setup({
@@ -23,11 +22,11 @@ return {
 				"haskell",
 			},
 			indent = { enable = true },
-			highlight = {
-				enable = true,
-				use_languagetree = true,
-			},
-		})
+		highlight = {
+			enable = true,
+			use_languagetree = true,
+		},
+	})
+	require("ts_context_commentstring").setup({})
 	end,
-	require("ts_context_commentstring").setup({}),
 }
