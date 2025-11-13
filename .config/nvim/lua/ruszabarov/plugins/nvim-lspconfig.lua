@@ -70,6 +70,9 @@ return {
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 		local severity = vim.diagnostic.severity
 		vim.diagnostic.config({
+			virtual_text = false,
+			underline = true,
+			update_in_insert = false,
 			signs = {
 				text = {
 					[severity.ERROR] = "✖",
