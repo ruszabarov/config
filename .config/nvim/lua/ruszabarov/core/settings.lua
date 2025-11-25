@@ -57,8 +57,8 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
--- " Always use spaces insted of tabs
-vim.opt.expandtab = true
+-- " Use literal tabs (2 spaces wide)
+vim.opt.expandtab = false
 
 -- " Don't wrap lines
 vim.opt.wrap = true
