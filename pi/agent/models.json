@@ -1,0 +1,51 @@
+{
+  "providers": {
+    "openrouter": {
+      "api": "openai-completions",
+      "baseUrl": "https://openrouter.ai/api/v1",
+      "apiKey": "${OPENROUTER_API_KEY}",
+      "models": [
+        {
+          "id": "deepseek/deepseek-v4-pro@preset/pi-deepseek-budget",
+          "name": "DeepSeek V4 Pro (My Custom Budget Guard)",
+          "reasoning": true,
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "compat": {
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "openrouter",
+            "requiresReasoningContentOnAssistantMessages": true
+          }
+        },
+        {
+          "id": "deepseek/deepseek-v4-flash@preset/pi-deepseek-budget",
+          "name": "DeepSeek V4 Flash",
+          "reasoning": true,
+          "contextWindow": 262144,
+          "maxTokens": 32768,
+          "compat": {
+            "supportsDeveloperRole": false,
+            "thinkingFormat": "openrouter",
+            "requiresReasoningContentOnAssistantMessages": true
+          }
+        }
+      ]
+    },
+    "antigravity": {
+      "modelOverrides": {
+        "gemini-3.7-flash": {
+          "contextWindow": 200000
+        },
+        "gemini-3.6-flash": {
+          "contextWindow": 200000
+        },
+        "gemini-3.5-flash": {
+          "contextWindow": 200000
+        },
+        "gemini-3.1-pro": {
+          "contextWindow": 200000
+        }
+      }
+    }
+  }
+}

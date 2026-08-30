@@ -1,0 +1,14 @@
+# Pi secrets/auth
+agent/auth.json
+
+# Runtime/history/cache state
+agent/cache/
+agent/sessions/
+agent/tmp/
+agent/web-run-sessions/
+agent/git/
+agent/npm/
+agent/models-store.json
+
+# Machine-local trust state
+agent/trust.json

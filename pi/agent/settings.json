@@ -1,0 +1,42 @@
+{
+  "lastChangelogVersion": "0.84.4",
+  "defaultProvider": "antigravity",
+  "defaultModel": "gemini-3.7-flash",
+  "defaultThinkingLevel": "high",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 32768,
+    "keepRecentTokens": 30000
+  },
+  "observational-memory": {
+    "observeAfterTokens": 10000,
+    "reflectAfterTokens": 20000,
+    "compactAfterTokens": 120000,
+    "observationsPoolMaxTokens": 24000,
+    "observationsPoolTargetTokens": 12000,
+    "agentMaxTurns": 16,
+    "model": {
+      "provider": "openrouter",
+      "id": "deepseek/deepseek-v4-flash@preset/pi-deepseek-budget",
+      "thinking": "low"
+    },
+    "passive": false,
+    "debugLog": false
+  },
+  "packages": [
+    {
+      "source": "npm:lsp-pi",
+      "extensions": [
+        "+lsp-tool.ts"
+      ]
+    },
+    "git:github.com/elpapi42/pi-fork",
+    "npm:pi-gh-cli",
+    "npm:checkpoint-pi",
+    "npm:@narumitw/pi-lsp",
+    "npm:@diegopetrucci/pi-notify",
+    "npm:pi-firecrawl"
+  ],
+  "enableInstallTelemetry": true,
+  "theme": "dark"
+}
