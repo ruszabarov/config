@@ -2,13 +2,20 @@
 
 Portable Pi Coding Agent configuration from `~/.pi/agent`.
 
-## Restore
+## Restore / link into `~/.pi/agent`
 
-Copy or symlink the files in `agent/` into `~/.pi/agent/`:
+From this directory, run:
 
 ```sh
-mkdir -p ~/.pi/agent
-cp -R agent/. ~/.pi/agent/
+./install-links.sh
+```
+
+This symlinks the portable config files/directories from this repo into `~/.pi/agent`, so edits made by Pi are reflected in the dotfiles checkout.
+
+`models.json` is intentionally not linked by default because the live file may contain local secrets. To link it too, first make sure committed API keys are environment/auth references, then run:
+
+```sh
+./install-links.sh --link-models
 ```
 
 ## Secrets and local runtime state
