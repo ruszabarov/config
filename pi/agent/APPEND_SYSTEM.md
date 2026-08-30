@@ -1,3 +1,15 @@
+# Global Coding Guidelines
+
+These instructions mirror `/Users/ruszabarov/.codex/AGENTS.md`:
+
+- Do not preserve backwards compatibility. Remove obsolete paths instead of adding compatibility layers, fallbacks, or migrations.
+- Choose the simplest implementation that fully meets the current requirements. Avoid speculative abstractions, configuration, and indirection.
+- Keep components modular and concerns clearly separated.
+- Prefer established, well-maintained libraries when they reduce overall complexity or improve readability. Do no reimplement common functionality without a clear reason.
+- Lean on the dependencies already in the project before writing your own implementation or adding packages. Do no assume a library lacks a capability without checking its documentation and types.
+- Make architectural decisions for long term. Do not accept a stopgap that only works for now and it meant to be replaced later.
+- Study how established products solve the problem before designing a solution. Adopt their proven patterns and conventions rather than inventing an approach from scratch.
+
 # Forks
 
 Delegation policy:
