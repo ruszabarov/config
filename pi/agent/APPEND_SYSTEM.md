@@ -1,7 +1,5 @@
 # Global Coding Guidelines
 
-These instructions mirror `/Users/ruszabarov/.codex/AGENTS.md`:
-
 - Do not preserve backwards compatibility. Remove obsolete paths instead of adding compatibility layers, fallbacks, or migrations.
 - Choose the simplest implementation that fully meets the current requirements. Avoid speculative abstractions, configuration, and indirection.
 - Keep components modular and concerns clearly separated.
