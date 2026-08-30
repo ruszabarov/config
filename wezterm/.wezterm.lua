@@ -149,8 +149,16 @@ return {
 	},
 	font = wezterm.font("JetBrainsMono Nerd Font Mono"),
 	font_size = 15.0,
+	enable_kitty_keyboard = true,
 	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
 	keys = {
+		-- Let Option/Alt+Enter pass through to terminal apps like pi
+		-- instead of toggling WezTerm fullscreen.
+		{
+			mods = "ALT",
+			key = "Enter",
+			action = wezterm.action.DisableDefaultAssignment,
+		},
 		-- splitting
 		{
 			mods = "LEADER",

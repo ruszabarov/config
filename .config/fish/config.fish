@@ -29,3 +29,9 @@ set --export PATH $BUN_INSTALL/bin $PATH
 
 # Added by Antigravity CLI installer
 set -gx PATH "/Users/ruszabarov/.local/bin" $PATH
+
+# fnm (Fast Node Manager) — auto-switches Node version on cd into a dir with .nvmrc/.node-version
+fnm env --use-on-cd --shell fish | source
+
+# Added by Antigravity IDE
+fish_add_path /Users/ruszabarov/.antigravity-ide/antigravity-ide/bin

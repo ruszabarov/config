@@ -38,3 +38,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential "https://origin.cursor.com/git"]
+	helper = 
+	helper = !/Users/ruszabarov/.local/bin/origin credential-helper
+[credential "https://origin.cursor.com"]
+	helper = 
+	helper = !/Users/ruszabarov/.local/bin/origin credential-helper
