@@ -1,5 +1,6 @@
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { homedir, tmpdir } from "node:os";
+import { fileURLToPath } from "node:url";
 import { join, resolve } from "node:path";
 import type { Api, Model } from "@earendil-works/pi-ai";
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
@@ -25,6 +26,25 @@ const SUBJECT_RE = new RegExp(
 type ThinkingLevel = "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max";
 
 type GitResult = Awaited<ReturnType<ExtensionAPI["exec"]>>;
+
+const SKILL_URL = new URL("../skills/conventional-commit/SKILL.md", import.meta.url);
+const SKILL_FALLBACK_PATH = join(homedir(), ".pi", "agent", "skills", "conventional-commit", "SKILL.md");
+
+function stripFrontmatter(markdown: string): string {
+	if (!markdown.startsWith("---\n")) return markdown;
+	const endIndex = markdown.indexOf("\n---", 4);
+	return endIndex === -1 ? markdown : markdown.slice(endIndex + 4).trim();
+}
+
+function loadSkillInstructions(): string {
+	try {
+		return stripFrontmatter(readFileSync(fileURLToPath(SKILL_URL), "utf8"));
+	} catch {
+		return stripFrontmatter(readFileSync(SKILL_FALLBACK_PATH, "utf8"));
+	}
+}
+
+const SKILL_INSTRUCTIONS = loadSkillInstructions();
 
 interface PrArgs {
 	base?: string;
@@ -298,12 +318,7 @@ function buildPrompt(input: {
 	return [
 		"Generate exactly one git commit message for all staged changes.",
 		"Return only the commit message. Do not wrap it in Markdown. Do not include commentary.",
-		"Use the Conventional Commits format:",
-		"<type>[optional scope][optional !]: <description>",
-		"",
-		"Allowed types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert.",
-		"Use imperative mood. Keep the first line <= 100 characters. Add a body only if it materially helps.",
-		"Never include AI/tool attribution, co-authors, or generated-by lines.",
+		"Follow the Conventional Commits rules in your instructions exactly.",
 		"Base the message only on the provided git data.",
 		input.guidance ? `\nUser guidance:\n${input.guidance}` : "",
 		`\nBranch:\n${input.branch || "(detached HEAD)"}`,
@@ -345,7 +360,7 @@ async function generateCommitMessage(pi: ExtensionAPI, ctx: ExtensionCommandCont
 			pi,
 			ctx,
 			model,
-			"You write concise, accurate Conventional Commit messages. Return only the final commit message.",
+			`You write concise, accurate Conventional Commit messages. Return only the final commit message.\n\n${SKILL_INSTRUCTIONS}`,
 			prompt,
 			120_000,
 			thinking,
@@ -524,10 +539,7 @@ function buildPrPrompt(input: {
 		"",
 		"<body>",
 		"",
-		"Title rules: concise, specific, <= 120 characters, no trailing period.",
-		"Body rules: concise Markdown with these sections: Summary, Tests, Notes for reviewers.",
-		"If tests are not evident from the provided data, put '- Not run (not specified)' under Tests.",
-		"Never include AI/tool attribution or generated-by text.",
+		"Follow the pull request title and body rules in your instructions exactly.",
 		"Base the PR text only on the provided git data and user guidance.",
 		input.guidance ? `\nUser guidance:\n${input.guidance}` : "",
 		`\nHead branch:\n${input.currentBranch}`,
@@ -613,7 +625,7 @@ async function generatePrText(
 			pi,
 			ctx,
 			model,
-			"You write concise, accurate GitHub pull request titles and bodies.",
+			`You write concise, accurate GitHub pull request titles and bodies.\n\n${SKILL_INSTRUCTIONS}`,
 			prompt,
 			180_000,
 			thinking,
