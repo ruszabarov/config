@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "0.84.4",
-  "defaultProvider": "antigravity",
-  "defaultModel": "gemini-3.7-flash",
+  "defaultProvider": "openrouter",
+  "defaultModel": "z-ai/glm-5.3-flash",
   "defaultThinkingLevel": "high",
   "compaction": {
     "enabled": true,
@@ -30,12 +30,12 @@
         "+lsp-tool.ts"
       ]
     },
-    "git:github.com/elpapi42/pi-fork",
     "npm:pi-gh-cli",
     "npm:checkpoint-pi",
     "npm:@narumitw/pi-lsp",
     "npm:@diegopetrucci/pi-notify",
-    "npm:pi-firecrawl"
+    "npm:pi-firecrawl",
+    "npm:@jerryan/pi-subagent-lite"
   ],
   "enableInstallTelemetry": true,
   "theme": "dark"
