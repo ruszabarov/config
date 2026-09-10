@@ -1,7 +1,6 @@
 [user]
 	name = Ruslan Zabarov
   email = ruszabarov@gmail.com
-	signingkey = 3712090DD1B80B336B28B97BC4C0468C1FEC37CE
 [core]
   pager = delta
 [interactive]
@@ -22,11 +21,7 @@
 	forgot = edit --no-edit --date=now
   staash = stash --all
 [gpg]
-	program = /opt/homebrew/bin/gpg
-[commit]
-	gpgsign = true
-[tag]
-	gpgSign = true
+	program = gpg
 [push]
 	autoSetupRemote = true
 [pull]
@@ -38,9 +33,7 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[credential "https://origin.cursor.com/git"]
-	helper = 
-	helper = !/Users/ruszabarov/.local/bin/origin credential-helper
-[credential "https://origin.cursor.com"]
-	helper = 
-	helper = !/Users/ruszabarov/.local/bin/origin credential-helper
+
+# Signing keys and other machine-specific overrides stay outside this repository.
+[include]
+  path = ~/.gitconfig.local
